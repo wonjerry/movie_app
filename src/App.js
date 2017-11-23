@@ -7,52 +7,39 @@ class App extends Component {
   state = {}
 
   componentDidMount () {
-    setTimeout(() => {
-      this.setState({
-        movies: [
-        {
-          id: 1,
-          title: 'Matrix',
-          poster: 'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg'
-        },
-        {
-          id: 2,
-          title: 'Full Metal Jacket',
-          poster: 'https://upload.wikimedia.org/wikipedia/en/9/99/Full_Metal_Jacket_poster.jpg'
-        },
-        {
-          id: 3,
-          title: 'Oldboy',
-          poster: 'https://www.languagetrainers.com/reviews/foreign-film-reviews/uploads/9214-Oldboy.jpg'
-        },
-        {
-          id: 4,
-          title: 'Star Wars',
-          poster: 'https://i.pinimg.com/736x/a1/61/c7/a161c7034917936f8bd53ca65bc6f0d0--star-wars-stuff-art-illustrations.jpg'
-        },
-        {
-          id: 5,
-          title: 'transformer',
-          poster: 'https://i.pinimg.com/originals/02/d4/b1/02d4b1dedc63fe5946ea915f3f700660.jpg'
-        }
-      ]
-      })
+    this._getMovies()
+  }
 
-    }, 5000)
+  _getMovies = async () => {
+    const movies = await
+      this._callApi()
+    this.setState({movies})
+  }
+
+  _callApi = () => {
+    return fetch('https://yts.ag/api/v2/list_movies.json?sort_by=download_count')
+      .then(response => response.json())
+      .then(json => json.data.movies)
+      .catch(err => console.log(err))
   }
 
   _renderMovies = () => {
-    const movies = this.state.movies.map(movie => {
-      return <Movie title={movie.title} poster={movie.poster} key={movie.id}/>
+    return this.state.movies.map(movie => {
+      return <Movie
+        title={movie.title_english}
+        poster={movie.medium_cover_image}
+        genres={movie.genres}
+        synopsis={movie.synopsis}
+        key={movie.id}/>
     })
-    return movies
   }
 
   render () {
+    const {movies} = this.state
     return (
-      <div className="App">
+      <div className={movies ? 'App' : 'App--loading'}>
         {
-          this.state.movies? this._renderMovies() : 'Loading'
+          movies? this._renderMovies() : 'Loading'
         }
       </div>
     )
