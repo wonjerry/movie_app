@@ -40,5 +40,18 @@ that's it!
  5. wait a few minute
 	 take few minute because of cache
 
+## What I learned from it
+1. Smart dumb component
+2. Fetch
+3. Life cycle
+4. ES6
+6. Structure of react
+
+## What I didn't learned from it yet
+I know about basic concept of redux but I want to know how to manage state in react project by using redux. but I didn't know that
+
+In nomad-coder course, There is  '[Make Timer App](https://academy.nomadcoders.co/courses/enrolled/235420)' course and That use redux and react native. So I'm going to see that course
+
+
 ## Reference
 I learned it from [nomad-coder](https://academy.nomadcoders.co/courses)
